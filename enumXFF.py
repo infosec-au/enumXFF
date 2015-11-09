@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
+from tqdm import tqdm
 import argparse
 import iptools
-from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--target",
