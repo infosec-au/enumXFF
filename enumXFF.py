@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
 from tqdm import tqdm
