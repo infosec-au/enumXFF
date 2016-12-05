@@ -13,7 +13,7 @@ parser.add_argument("-cl", "--badcl",
 parser.add_argument("-r", "--range",
 					help="IP range i.e. 0.0.0.0-255.255.255.255", required=True)
 parser.add_argument("-w", "--workers",
-					help="Worker/thread count - default is 100", default=100)
+					help="Worker/thread count - default is 100", default=100, type=int)
 parser.add_argument("-o", "--output",
 					help="If an IP address returns a higher content length, save IP address to file", 
 						default="working_ips.txt")
@@ -41,5 +41,5 @@ for ip in tqdm(ip_addresses):
 	if response.headers['content-length'] > args.badcl:
 		ip_save_file = open(args.output, "a")
 		ip_save_file.write(args.target + ": " + str(x_forwarded_for_header) + "\n")
-		print "\nAccess granted with {0}".format(ip)
+		print("\nAccess granted with {0}".format(ip))
 		break
