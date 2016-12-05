@@ -17,6 +17,10 @@ parser.add_argument("-w", "--workers",
 parser.add_argument("-o", "--output",
 					help="If an IP address returns a higher content length, save IP address to file", 
 						default="working_ips.txt")
+parser.add_argument("--no-verify-ssl",
+					help="Ignore any and all SSL errors. Use at your own risk... Obviously.",
+						default=False, dest='no_verify_ssl',action='store_true')
+
 args = parser.parse_args()
 
 session = FuturesSession(executor=ThreadPoolExecutor(max_workers=args.workers))
@@ -32,7 +36,7 @@ ip_addresses = generate_ips(args.range)
 for ip in tqdm(ip_addresses):
 	ip_list = ("{0}, ".format(ip) * 50)[:-2]
 	x_forwarded_for_header = {"X-Forwarded-For" : ip_list}
-	future = session.head(args.target, headers=x_forwarded_for_header)
+	future = session.head(args.target, headers=x_forwarded_for_header, verify= not args.no_verify_ssl)
 	response = future.result()
 	if response.headers['content-length'] > args.badcl:
 		ip_save_file = open(args.output, "a")
