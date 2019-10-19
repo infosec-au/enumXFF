@@ -34,8 +34,9 @@ for ip in tqdm(ip_addresses):
 	x_forwarded_for_header = {"X-Forwarded-For" : ip_list}
 	future = session.head(args.target, headers=x_forwarded_for_header)
 	response = future.result()
-	if response.headers['content-length'] > args.badcl:
-		ip_save_file = open(args.output, "a")
-		ip_save_file.write(args.target + ": " + str(x_forwarded_for_header) + "\n")
-		print "\nAccess granted with {0}".format(ip)
-		break
+	if 'content-length' in response.headers:
+		if response.headers['content-length'] > args.badcl:
+			ip_save_file = open(args.output, "a")
+			ip_save_file.write(args.target + ": " + str(x_forwarded_for_header) + "\n")
+			print "\nAccess granted with {0}".format(ip)
+			break
